@@ -1,0 +1,18 @@
+.logo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.logo img {
+  height: 60px;
+  width: auto;
+  margin-top: 2%;
+}
+
+.main-header {
+  position: "fixed";
+  z-index: 1;
+  width: "100%";
+  margin-bottom: 3%;
+}

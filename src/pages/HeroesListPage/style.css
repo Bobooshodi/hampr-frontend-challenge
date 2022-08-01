@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.heroName {
+  vertical-align: middle;
+}
+
+.heroTable {
+  margin-top: 3%;;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
