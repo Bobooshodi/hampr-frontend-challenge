@@ -2,12 +2,9 @@ import { SearchOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
-  Col,
   Divider,
   Input,
-  Row,
   Space,
-  Table,
   Typography,
 } from "antd";
 import { find, sumBy, uniq } from "lodash";
@@ -21,6 +18,8 @@ import type {
 } from "../../models/types";
 import { ReactElement, useState } from "react";
 import HeroesTable from "../../components/tables/HeroesTable";
+import HeoresMetricsPanel from "../../components/panels/HeroesMetricsPanel";
+import HeroTagFilter from "../../components/controls/HeroTagFilter";
 const heroesData: Character[] = jsonData as Character[];
 
 const { Title, Text } = Typography;
@@ -146,6 +145,20 @@ const HerosListPage = () => {
     });
   };
 
+  const resetFilters = () => {
+    setSelectedFilter("");
+    setSelectedHeroes([]);
+    setHeroes(heroesData);
+    setSelectedRowKeys([]);
+    setTeamAbilityMetrics({
+      powerMetric: 0,
+      mobilityMetric: 0,
+      techniqueMetric: 0,
+      survivabilityMetric: 0,
+      energyMetricL: 0,
+    });
+  };
+
   const columns = [
     {
       title: "Character",
@@ -220,62 +233,7 @@ const HerosListPage = () => {
               <Avatar size={75} key={hero.id} src={hero.thumbnail} />
             ))}
           </div>
-          <div>
-            <Row gutter={48}>
-              <Col>
-                <div>
-                  <p>Power</p>
-                  {selectedHeroes.length > 0 ? (
-                    <p>{teamAbilityMetrics.powerMetric}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </div>
-              </Col>
-              <Col>
-                <div>
-                  <p>Mobility</p>
-                  {selectedHeroes.length > 0 ? (
-                    <p>{teamAbilityMetrics.mobilityMetric}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </div>
-              </Col>
-              <Divider type="vertical" />
-              <Col>
-                <div>
-                  <p>Technique</p>
-                  {selectedHeroes.length > 0 ? (
-                    <p>{teamAbilityMetrics.techniqueMetric}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </div>
-              </Col>
-              <Divider type="vertical" />
-              <Col>
-                <div>
-                  <p>Survivability</p>
-                  {selectedHeroes.length > 0 ? (
-                    <p>{teamAbilityMetrics.survivabilityMetric}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </div>
-              </Col>
-              <Col>
-                <div>
-                  <p>Energy</p>
-                  {selectedHeroes.length > 0 ? (
-                    <p>{teamAbilityMetrics.energyMetric}</p>
-                  ) : (
-                    <p>-</p>
-                  )}
-                </div>
-              </Col>
-            </Row>
-          </div>
+          <HeoresMetricsPanel metrics={teamAbilityMetrics} />
           <p> * Totals as average for squad</p>
         </Space>
       </div>
@@ -289,41 +247,14 @@ const HerosListPage = () => {
         />
       </Divider>
 
-      <Space size={[8, 16]} wrap>
-        {tagsFilters.map((tag: string) => (
-          <Button
-            key={tag}
-            shape="round"
-            size="large"
-            onClick={() => filterHeroes(tag)}
-            type={selectedFilter === tag ? "primary" : "default"}
-          >
-            {tag}
-          </Button>
-        ))}
-        <Button
-          key="myteam"
-          shape="round"
-          size="large"
-          onClick={() => filterHeroes()}
-          type={selectedFilter === "myteam" ? "primary" : "default"}
-        >
-          My Team
-        </Button>
-        <Button
-          type="link"
-          onClick={() => {
-            setSelectedFilter("");
-            setSelectedHeroes([]);
-            setHeroes(heroesData);
-            setSelectedRowKeys([]);
-          }}
-        >
-          Clear All
-        </Button>
-      </Space>
+      <HeroTagFilter tags={tagsFilters} selectedTag={selectedFilter} onTagClick={filterHeroes} resetFilters={resetFilters} />
+
       <div className="heroTable">
-        <HeroesTable columns={columns} rowSelection={rowSelection} data={heroes} />
+        <HeroesTable
+          columns={columns}
+          rowSelection={rowSelection}
+          data={heroes}
+        />
       </div>
     </div>
   );
