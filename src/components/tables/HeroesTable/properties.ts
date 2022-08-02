@@ -1,7 +1,6 @@
-import { TableProps } from "antd/lib/table";
 import { Character } from "../../../models/types";
 
-export interface HeroTableProps extends TableProps<Character> {
+export interface HeroTableProps {
     rowSelection: any;
     data: Character[];
 }
