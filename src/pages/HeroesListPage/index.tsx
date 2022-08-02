@@ -20,6 +20,7 @@ import type {
   CharacterTag,
 } from "../../models/types";
 import { ReactElement, useState } from "react";
+import HeroesTable from "../../components/tables/HeroesTable";
 const heroesData: Character[] = jsonData as Character[];
 
 const { Title, Text } = Typography;
@@ -322,14 +323,7 @@ const HerosListPage = () => {
         </Button>
       </Space>
       <div className="heroTable">
-        <Table
-          rowKey="id"
-          style={{ width: "80%" }}
-          size="small"
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={heroes}
-        />
+        <HeroesTable columns={columns} rowSelection={rowSelection} data={heroes} />
       </div>
     </div>
   );
